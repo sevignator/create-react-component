@@ -1,8 +1,13 @@
 {
   "name": "@sevignator/new-react-component",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A simple CLI for creating React components",
+  "homepage": "https://github.com/sevignator/new-react-component",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sevignator/new-react-component"
+  },
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +19,6 @@
   },
   "type": "module",
   "bin": {
-    "nrc": "index.js"
+    "nrc": "./src/index.js"
   }
 }

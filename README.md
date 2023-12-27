@@ -1,1 +1,1 @@
-# create-react-component
+# new-react-component

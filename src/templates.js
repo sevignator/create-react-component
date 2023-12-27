@@ -5,23 +5,31 @@ const stylingOptions = {
 };
 
 export async function getIndexTemplate(componentName) {
-  return await prettify(`
-    export * from "./${componentName}"
-    export { default } from "./${componentName}"
-  `);
+  try {
+    return await prettify(`
+      export * from "./${componentName}"
+      export { default } from "./${componentName}"
+    `);
+  } catch (e) {
+    console.error(e.message);
+  }
 }
 
 export async function getComponentTemplate(componentName, lang, styling) {
-  return await prettify(`
-    import React from 'react'
-    ${styling ? stylingOptions[styling] : ''}
+  try {
+    return await prettify(`
+      import React from 'react'
+      ${stylingOptions[styling] ? stylingOptions[styling] : ''}
 
-    function ${componentName}() {
-      return <div></div>
-    }
+      function ${componentName}() {
+        return <div></div>
+      }
 
-    export default ${componentName}
-  `);
+      export default ${componentName}
+    `);
+  } catch (e) {
+    console.error(e.message);
+  }
 }
 
 export function getStylingTemplate() {}

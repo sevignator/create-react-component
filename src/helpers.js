@@ -1,6 +1,11 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+/**
+ * Helper functions
+ *
+ * These functions only make sense in the context of this program
+ */
 
-import { parseJSONFile } from './utils.js';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { getConfigFile } from './utils.js';
 import { getComponentTemplate, getIndexTemplate } from './templates.js';
 
 export async function createTemplate(componentName, directory, lang, styling) {
@@ -36,10 +41,8 @@ export async function createTemplate(componentName, directory, lang, styling) {
   );
 }
 
-export async function getConfig(options) {
-  const currentPath = process.cwd();
-  const configFile = await parseJSONFile(`${currentPath}/.nrc-config.json`);
-
+export async function getOptions(options) {
+  const configFile = getConfigFile();
   const defaults = {
     dir: 'app/components',
     lang: 'js',

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Option, program } from 'commander';
-import { createTemplate, getConfig } from './helpers.js';
+import { createTemplate, getOptions } from './helpers.js';
 import { parseJSONFile } from './utils.js';
 
 const { version } = await parseJSONFile('../package.json');
@@ -25,7 +25,7 @@ program
   .parse();
 
 const options = program.opts();
-const { dir, lang, styling } = await getConfig(options);
+const { dir, lang, styling } = await getOptions(options);
 const componentName = program.args[0];
 const componentDirectory = `${dir}/${componentName}`;
 

@@ -1,6 +1,6 @@
 {
   "name": "@sevignator/new-react-component",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A simple CLI for creating React components",
   "homepage": "https://github.com/sevignator/new-react-component",
   "repository": {
@@ -11,8 +11,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [ ],
-  "author": "",
+  "keywords": [
+    "react",
+    "CLI",
+    "component"
+  ],
+  "author": "Mikaël Sévigny",
   "license": "ISC",
   "dependencies": {
     "commander": "^11.1.0"

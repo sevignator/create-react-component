@@ -19,7 +19,8 @@
   "author": "Mikaël Sévigny",
   "license": "ISC",
   "dependencies": {
-    "commander": "^11.1.0"
+    "commander": "^11.1.0",
+    "prettier": "^3.1.1"
   },
   "type": "module",
   "bin": {

@@ -12,7 +12,7 @@ program
   .argument('<component-name>', 'new component name')
   .addOption(
     new Option('-d, --dir <path>', 'specify an output directory').default(
-      './src/components'
+      './app/components'
     )
   )
   .addOption(

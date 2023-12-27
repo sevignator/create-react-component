@@ -6,13 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [ ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "commander": "^11.1.0"
   },
   "bin": {
-    "nrc": "./index.js"
+    "nrc": "index.js"
   }
 }

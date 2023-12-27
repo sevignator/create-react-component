@@ -1,33 +1,33 @@
-import { stat } from 'node:fs';
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
-import { getTemplate } from './templates.js';
+import { getComponentTemplate, getIndexTemplate } from './templates.js';
 
-export function checkIfDirectoryExists(directoryPath) {
-  stat(directoryPath, (err, stats) => {
-    try {
-      if (err) {
-        throw err;
-      }
-      return stats.isDirectory();
-    } catch (e) {
-      console.error(e.message);
-    }
-  });
-}
-
-export async function createTemplate(componentName, lang, styling) {
-  const langs = {
+export async function createTemplate(componentName, directory, lang, styling) {
+  const fileExtensions = {
     js: {
-      templateExt: 'jsx',
+      component: 'jsx',
+      index: 'js',
+      styling: 'js',
     },
     ts: {
-      templateExt: 'tsx',
+      component: 'tsx',
+      index: 'ts',
+      styling: 'ts',
     },
   };
 
-  const template = getTemplate(componentName, lang, styling);
-  await writeFile(`${componentName}.${langs[lang].templateExt}`, template);
+  const componentTemplate = getComponentTemplate(componentName, lang, styling);
+  const indexTemplate = getIndexTemplate(componentName);
+
+  await mkdir(directory, { recursive: true });
+  await writeFile(
+    `${directory}/${componentName}.${fileExtensions[lang].component}`,
+    componentTemplate
+  );
+  await writeFile(
+    `${directory}/index.${fileExtensions[lang].index}`,
+    indexTemplate
+  );
 }
 
 export async function parseJSONFile(pathString) {

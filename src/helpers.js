@@ -8,7 +8,12 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { getConfigFile } from './utils.js';
 import { getComponentTemplate, getIndexTemplate } from './templates.js';
 
-export async function createTemplate(componentName, directory, lang, styling) {
+export async function createBoilerplate(
+  componentName,
+  directory,
+  lang,
+  styling
+) {
   const fileExtensions = {
     js: {
       component: 'jsx',

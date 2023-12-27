@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Option, program } from 'commander';
-import { createTemplate, getOptions } from './helpers.js';
+import { createBoilerplate, getOptions } from './helpers.js';
 import { parseJSONFile } from './utils.js';
 
 const { version } = await parseJSONFile('../package.json');
@@ -29,4 +29,4 @@ const { dir, lang, styling } = await getOptions(options);
 const componentName = program.args[0];
 const componentDirectory = `${dir}/${componentName}`;
 
-createTemplate(componentName, componentDirectory, lang, styling);
+createBoilerplate(componentName, componentDirectory, lang, styling);

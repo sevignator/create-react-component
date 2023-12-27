@@ -13,10 +13,8 @@ program
     new Option('--styling <choice>', 'specify a styling library').choices([
       'vanilla-extract',
     ])
-  );
-
-console.log(checkIfDirectoryExists('test-1'));
-console.log(checkIfDirectoryExists('test-2'));
+  )
+  .parse();
 
 const componentName = program.args[0];
 const options = program.opts();

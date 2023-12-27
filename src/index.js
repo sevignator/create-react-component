@@ -1,25 +1,32 @@
 #!/usr/bin/env node
 
 import { Option, program } from 'commander';
-import { checkIfDirectoryExists, parseJSONFile } from './utils.js';
+import {
+  checkIfDirectoryExists,
+  createTemplate,
+  parseJSONFile,
+} from './utils.js';
 
 const { version } = await parseJSONFile('../package.json');
+const langOptions = ['js', 'ts'];
+const stylingOptions = ['vanilla-extract'];
 
 program
   .version(version)
   .argument('<component-name>', 'new component name')
-  .option('--typescript', 'create files using the `.ts` and `.tsx` extensions')
   .addOption(
-    new Option('--styling <choice>', 'specify a styling library').choices([
-      'vanilla-extract',
-    ])
+    new Option('-l, --lang <language>', 'specify a language to use')
+      .choices(langOptions)
+      .default(langOptions[0])
+  )
+  .addOption(
+    new Option('-s, --styling <library>', 'specify a styling library').choices(
+      stylingOptions
+    )
   )
   .parse();
 
 const componentName = program.args[0];
-const options = program.opts();
+const { lang, styling } = program.opts();
 
-console.log({
-  componentName,
-  options,
-});
+createTemplate(componentName, lang, styling);

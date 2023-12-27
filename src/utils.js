@@ -8,8 +8,12 @@ import { readFile } from 'node:fs/promises';
 import { format } from 'prettier';
 
 export async function getConfigFile() {
-  const currentPath = process.cwd();
-  return await parseJSONFile(`${currentPath}/.nrc-config.json`);
+  try {
+    const currentPath = process.cwd();
+    return await parseJSONFile(`${currentPath}/.nrc-config.json`);
+  } catch (e) {
+    console.error(e.message);
+  }
 }
 
 export async function parseJSONFile(pathString) {
@@ -25,8 +29,8 @@ export async function parseJSONFile(pathString) {
 export async function prettify(string) {
   try {
     return await format(string, {
-      semi: true,
       parser: 'babel',
+      semi: true,
       singleQuote: true,
     });
   } catch (e) {

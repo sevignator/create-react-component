@@ -5,38 +5,25 @@
  */
 
 import { mkdir, writeFile } from 'node:fs/promises';
-import { getConfigFile } from './utils.js';
+import { getJSONConfigFile } from './utils.js';
 import {
   getComponentTemplate,
   getConfigTemplate,
   getIndexTemplate,
 } from './templates.js';
 
-export const defaults = {
+const configFileName = '.nrc-config.json';
+const defaults = {
   dir: 'app/components',
   lang: 'js',
   styling: null,
 };
 
-export async function createBoilerplate(
-  componentName,
-  directory,
-  lang,
-  styling
-) {
-  const fileExtensions = {
-    js: {
-      component: 'jsx',
-      index: 'js',
-      styling: 'js',
-    },
-    ts: {
-      component: 'tsx',
-      index: 'ts',
-      styling: 'ts',
-    },
+export async function createBoilerplate(componentName, dir, lang, styling) {
+  const componentFileExtensions = {
+    js: 'jsx',
+    ts: 'tsx',
   };
-
   const componentTemplate = await getComponentTemplate(
     componentName,
     lang,
@@ -44,22 +31,27 @@ export async function createBoilerplate(
   );
   const indexTemplate = await getIndexTemplate(componentName);
 
-  await mkdir(directory, { recursive: true });
+  if (!componentTemplate || !indexTemplate) {
+    throw new Error('Template code could not be found');
+  }
+
+  await mkdir(dir, { recursive: true });
   await writeFile(
-    `${directory}/${componentName}.${fileExtensions[lang].component}`,
+    `${dir}/${componentName}.${componentFileExtensions[lang]}`,
     componentTemplate
   );
-  await writeFile(
-    `${directory}/index.${fileExtensions[lang].index}`,
-    indexTemplate
-  );
+  await writeFile(`${dir}/index.${lang}`, indexTemplate);
 }
 
 export async function createConfig() {
   try {
+    const currentDir = process.cwd();
+    const filePath = `${currentDir}/${configFileName}`;
     const configTemplate = await getConfigTemplate(defaults);
-    const currentWorkingDirectory = process.cwd();
-    const filePath = `${currentWorkingDirectory}/.nrc-config.json`;
+
+    if (!configTemplate) {
+      throw new Error('Template code could not be found');
+    }
 
     await writeFile(filePath, configTemplate);
   } catch (e) {
@@ -68,7 +60,7 @@ export async function createConfig() {
 }
 
 export async function getOptions(options) {
-  const configFile = await getConfigFile();
+  const configFile = await getJSONConfigFile(configFileName);
 
   return {
     dir: options.dir || configFile?.dir || defaults.dir,

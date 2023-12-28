@@ -4,30 +4,25 @@
  * These function are meant to be program-agnostic and reusable in multiple contexts
  */
 
-import { readFile, stat } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { format } from 'prettier';
 
-// @TODO: Figure out how to properly implement file existence check
-// export async function checkIfFileExists(filePath) {
-//   return await stat(filePath);
-// }
-
-export async function getConfigFile() {
+export async function getJSONConfigFile(fileName) {
   try {
     const currentWorkingDirectory = process.cwd();
-    const filePath = `${currentWorkingDirectory}/.nrc-config.json`;
-
-    return await parseJSONFile(filePath);
+    const filePath = `${currentWorkingDirectory}/${fileName}`;
+    return await readJSONFile(filePath);
   } catch (e) {
-    if (e.code === 'ENOENT') {
-      console.log('No config file was found, applying defaults.');
-    } else {
-      console.log(e);
+    switch (e.code) {
+      case 'ENOENT':
+        console.info('No config file was found, applying defaults.');
+      default:
+        console.error(e.message);
     }
   }
 }
 
-export async function parseJSONFile(pathString) {
+export async function readJSONFile(pathString) {
   try {
     const filePath = new URL(pathString, import.meta.url);
     const contents = await readFile(filePath, { encoding: 'utf-8' });
@@ -38,10 +33,13 @@ export async function parseJSONFile(pathString) {
 }
 
 export async function prettify(string, parser = 'babel') {
-  const prettifiedText = await format(string, {
-    parser,
-    semi: true,
-    singleQuote: true,
-  });
-  return prettifiedText;
+  try {
+    return await format(string, {
+      parser,
+      semi: true,
+      singleQuote: true,
+    });
+  } catch (e) {
+    console.error(e.message);
+  }
 }

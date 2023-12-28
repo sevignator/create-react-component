@@ -4,29 +4,26 @@
  * These function are meant to be program-agnostic and reusable in multiple contexts
  */
 
-import { access, constants, readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import { format } from 'prettier';
 
-export async function checkIfFileExists(filePath) {
-  try {
-    await access(filePath, constants.R_OK | constants.W_OK);
-    console.log('This file already exists!');
-    process.exit(0);
-  } catch (e) {
-    if (e.code === 'ENOENT') {
-      console.log('Creating this file...');
-    } else {
-      console.log(e.message);
-    }
-  }
-}
+// @TODO: Figure out how to properly implement file existence check
+// export async function checkIfFileExists(filePath) {
+//   return await stat(filePath);
+// }
 
 export async function getConfigFile() {
   try {
     const currentWorkingDirectory = process.cwd();
-    return await parseJSONFile(`${currentWorkingDirectory}/.nrc-config.json`);
+    const filePath = `${currentWorkingDirectory}/.nrc-config.json`;
+
+    return await parseJSONFile(filePath);
   } catch (e) {
-    console.error(e.message);
+    if (e.code === 'ENOENT') {
+      console.log('No config file was found, applying defaults.');
+    } else {
+      console.log(e);
+    }
   }
 }
 

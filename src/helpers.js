@@ -5,7 +5,7 @@
  */
 
 import { mkdir, writeFile } from 'node:fs/promises';
-import { checkIfFileExists, getConfigFile } from './utils.js';
+import { getConfigFile } from './utils.js';
 import {
   getComponentTemplate,
   getConfigTemplate,
@@ -61,7 +61,6 @@ export async function createConfig() {
     const currentWorkingDirectory = process.cwd();
     const filePath = `${currentWorkingDirectory}/.nrc-config.json`;
 
-    await checkIfFileExists(filePath);
     await writeFile(filePath, configTemplate);
   } catch (e) {
     console.error(e);

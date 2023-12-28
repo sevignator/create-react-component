@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import { Option, program } from 'commander';
-import { createBoilerplate, createConfig, getOptions } from './helpers.js';
-import { readJSONFile } from './utils.js';
+import { createBoilerplate, createConfig, getOptions } from './src/helpers.js';
+import { readJSONFile } from './src/utils.js';
 
 const { description, version } = await readJSONFile('../package.json');
 const langOptions = ['js', 'ts'];

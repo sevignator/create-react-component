@@ -10,7 +10,12 @@ const stylingOptions = ['vanilla-extract'];
 
 program.version(version).description(description);
 
-program.command('init').description('Create a project-specific config file');
+program
+  .command('init')
+  .description('Create a project-specific config file')
+  .action(() => {
+    createConfig();
+  });
 
 program
   .command('create')
@@ -26,21 +31,12 @@ program
     new Option('-s, --styling <library>', 'Specify a styling library').choices(
       stylingOptions
     )
-  );
+  )
+  .action(async (args, options) => {
+    const { dir, lang, styling } = await getOptions(options);
+    const componentName = program.args[1];
+    const componentDir = `${dir}/${componentName}`;
+    createBoilerplate(componentName, componentDir, lang, styling);
+  });
 
 program.parse();
-
-const command = program.args[0];
-
-if (command === 'init') {
-  createConfig();
-}
-
-if (command === 'create') {
-  const options = program.opts();
-  const { dir, lang, styling } = await getOptions(options);
-  const componentName = program.args[1];
-  const componentDir = `${dir}/${componentName}`;
-
-  createBoilerplate(componentName, componentDir, lang, styling);
-}

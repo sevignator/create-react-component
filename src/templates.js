@@ -4,32 +4,28 @@ const stylingOptions = {
   'vanilla-extract': 'import * as styles from "vanilla-extract"',
 };
 
+export async function getConfigTemplate(defaults) {
+  return prettify(JSON.stringify(defaults), 'json');
+}
+
 export async function getIndexTemplate(componentName) {
-  try {
-    return await prettify(`
-      export * from "./${componentName}"
-      export { default } from "./${componentName}"
-    `);
-  } catch (e) {
-    console.error(e.message);
-  }
+  return prettify(`
+    export * from "./${componentName}"
+    export { default } from "./${componentName}"
+  `);
 }
 
 export async function getComponentTemplate(componentName, lang, styling) {
-  try {
-    return await prettify(`
-      import React from 'react'
-      ${stylingOptions[styling] ? stylingOptions[styling] : ''}
+  return prettify(`
+    import React from 'react'
+    ${stylingOptions[styling] ? stylingOptions[styling] : ''}
 
-      function ${componentName}() {
-        return <div></div>
-      }
+    function ${componentName}() {
+      return <div></div>
+    }
 
-      export default ${componentName}
-    `);
-  } catch (e) {
-    console.error(e.message);
-  }
+    export default ${componentName}
+  `);
 }
 
 export function getStylingTemplate() {}

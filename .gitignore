@@ -3,5 +3,5 @@
 node_modules
 pnpm-lock.yaml
 
-.nrc-config.json
+nrc.config.json
 app/

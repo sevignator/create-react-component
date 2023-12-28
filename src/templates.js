@@ -13,7 +13,7 @@ export async function getIndexTemplate(componentName) {
 
 export async function getComponentTemplate(componentName, lang, styling) {
   const stylingOptions = {
-    'vanilla-extract': `import * as styles from "./index.css.${lang}"`,
+    'vanilla-extract': `import * as styles from "./${componentName}.css.${lang}"`,
   };
 
   return prettify(`
@@ -32,7 +32,7 @@ export async function getComponentTemplate(componentName, lang, styling) {
 
 export function getStylingTemplate(styling) {
   const stylingOptions = {
-    'vanilla-extract': 'import { style } from "vanilla-extract"',
+    'vanilla-extract': 'import { style } from "@vanilla-extract/css"',
   };
 
   return prettify(`

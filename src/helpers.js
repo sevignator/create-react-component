@@ -59,7 +59,7 @@ export async function createBoilerplate(componentName, dir, lang, styling) {
       }
 
       await writeFile(
-        `${dir}/index.${stylingFileExtensions[styling]}`,
+        `${dir}/${componentName}.${stylingFileExtensions[styling]}`,
         stylingTemplate
       );
     }

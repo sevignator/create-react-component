@@ -13,7 +13,7 @@ import {
   getStylingTemplate,
 } from './templates.js';
 
-const configFileName = '.nrc-config.json';
+const configFileName = 'nrc.config.json';
 const defaults = {
   dir: 'app/components',
   lang: 'js',

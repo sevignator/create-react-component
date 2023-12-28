@@ -1,6 +1,6 @@
 {
   "name": "@sevignator/new-react-component",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A simple CLI for creating React components",
   "homepage": "https://github.com/sevignator/new-react-component",
   "repository": {

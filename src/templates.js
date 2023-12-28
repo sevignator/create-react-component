@@ -12,14 +12,15 @@ export async function getIndexTemplate(componentName) {
 }
 
 export async function getComponentTemplate(componentName, lang, styling) {
-  console.log(styling);
   const stylingOptions = {
-    'vanilla-extract': 'import * as styles from "vanilla-extract"',
+    'vanilla-extract': `import * as styles from "./index.css.${lang}"`,
   };
 
   return prettify(`
     import React from 'react'
     ${stylingOptions[styling] ? stylingOptions[styling] : ''}
+
+    ${lang === 'ts' ? 'type Props = {}' : ''}
 
     function ${componentName}() {
       return <div></div>
@@ -29,4 +30,12 @@ export async function getComponentTemplate(componentName, lang, styling) {
   `);
 }
 
-export function getStylingTemplate() {}
+export function getStylingTemplate(styling) {
+  const stylingOptions = {
+    'vanilla-extract': 'import { style } from "vanilla-extract"',
+  };
+
+  return prettify(`
+    ${stylingOptions[styling] ? stylingOptions[styling] : ''}
+  `);
+}

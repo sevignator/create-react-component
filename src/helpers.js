@@ -10,6 +10,7 @@ import {
   getComponentTemplate,
   getConfigTemplate,
   getIndexTemplate,
+  getStylingTemplate,
 } from './templates.js';
 
 const configFileName = '.nrc-config.json';
@@ -25,19 +26,22 @@ export async function createBoilerplate(componentName, dir, lang, styling) {
       js: 'jsx',
       ts: 'tsx',
     };
+    const stylingFileExtensions = {
+      'vanilla-extract': `css.${lang}`,
+    };
+    const indexTemplate = await getIndexTemplate(componentName);
     const componentTemplate = await getComponentTemplate(
       componentName,
       lang,
       styling
     );
-    const indexTemplate = await getIndexTemplate(componentName);
 
     if (!componentTemplate || !indexTemplate) {
-      throw new Error('Template code could not be found.');
+      throw new Error('The template code could not be found.');
     }
 
     if (checkIfFileExists(dir)) {
-      throw new Error('This component already exists!');
+      throw new Error(`A "${componentName}" component already exists!`);
     }
 
     await mkdir(dir, { recursive: true });
@@ -46,6 +50,19 @@ export async function createBoilerplate(componentName, dir, lang, styling) {
       componentTemplate
     );
     await writeFile(`${dir}/index.${lang}`, indexTemplate);
+
+    if (styling) {
+      const stylingTemplate = await getStylingTemplate(styling);
+
+      if (!stylingTemplate) {
+        throw new Error('The template code could not be found.');
+      }
+
+      await writeFile(
+        `${dir}/index.${stylingFileExtensions[styling]}`,
+        stylingTemplate
+      );
+    }
   } catch (e) {
     console.error(e.message);
   }
@@ -58,11 +75,11 @@ export async function createConfig() {
     const configTemplate = await getConfigTemplate(defaults);
 
     if (!configTemplate) {
-      throw new Error('Template code could not be found');
+      throw new Error('The template code could not be found.');
     }
 
     if (checkIfFileExists(filePath)) {
-      throw new Error('You already have a config file');
+      throw new Error('You already have a config file!');
     }
 
     await writeFile(filePath, configTemplate);
@@ -77,7 +94,7 @@ export async function getOptions(options) {
     return {
       dir: options.dir || configFile?.dir || defaults.dir,
       lang: options.lang || configFile?.lang || defaults.lang,
-      styling: options.styling || configFile?.lang || defaults.styling,
+      styling: options.styling || configFile?.styling || defaults.styling,
     };
   } catch (e) {
     console.error(e.message);

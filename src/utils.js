@@ -31,7 +31,7 @@ export async function getJSONConfigFile(fileName) {
   }
 }
 
-export async function prettify(string, parser = 'babel') {
+export async function prettify(string, parser = 'typescript') {
   try {
     return await format(string, {
       parser,

@@ -61,9 +61,13 @@ export async function createConfig() {
       throw new Error('Template code could not be found');
     }
 
+    if (checkIfFileExists(filePath)) {
+      throw new Error('You already have a config file');
+    }
+
     await writeFile(filePath, configTemplate);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
   }
 }
 
@@ -76,6 +80,6 @@ export async function getOptions(options) {
       styling: options.styling || configFile?.lang || defaults.styling,
     };
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
   }
 }

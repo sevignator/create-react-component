@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/sevignator/new-react-component"
   },
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,6 +24,6 @@
   },
   "type": "module",
   "bin": {
-    "nrc": "./src/index.js"
+    "nrc": "./index.js"
   }
 }

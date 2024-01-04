@@ -20,7 +20,7 @@ export async function getComponentTemplate(componentName, lang, styling) {
     import React from 'react'
     ${stylingOptions[styling] ? stylingOptions[styling] : ''}
 
-    ${lang === 'ts' ? 'type Props = {}' : ''}
+    ${lang === 'ts' ? `export type ${componentName}Props = {}` : ''}
 
     function ${componentName}() {
       return <div></div>

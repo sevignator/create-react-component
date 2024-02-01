@@ -22,8 +22,14 @@ export async function getComponentTemplate(componentName, lang, styling) {
 
     ${lang === 'ts' ? `export type ${componentName}Props = {}` : ''}
 
-    function ${componentName}() {
-      return <div></div>
+    function ${componentName}({}${
+      lang === 'ts' ? `: ${componentName}Props` : ''
+    }) {
+      return (
+        <>
+
+        </>
+      );
     }
 
     export default ${componentName}
